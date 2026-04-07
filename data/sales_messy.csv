@@ -1,0 +1,95 @@
+date,region,product,sales_rep,units,unit_price,notes
+2024-02-20,South,Widget A,Carol,382.0,9.99,  check back
+15/01/2024,East ,Widget A,Alice,263.0,19.99,
+20/02/2024,East ,widget a,David,8.0,19.99,
+Jan 15 2024,East ,WIDGET A,Carol,395.0,9.99,
+20/02/2024,South,WIDGET A,Carol,378.0,9.99,
+Feb 20 2024,South,widget b,Carol,365.0,,
+15/01/2024,West,GADGET X,Carol,56.0,99.99,
+Feb 20 2024,south,widget a,Carol,141.0,9.99,  check back
+Jan 15 2024,East,widget b,Bob,143.0,19.99,
+2024-02-20,south,GADGET X,Alice,166.0,9.99,
+2024-03-10,south,widget a,David,334.0,49.99,
+March 10 2024,West,Gadget X,Eve,304.0,99.99,follow up  
+10/03/2024,West,widget a,Eve,29.0,19.99,
+15/01/2024,East,GADGET X,David,310.0,49.99,  check back
+March 10 2024,North,Gadget X,Alice,398.0,9.99,follow up  
+2024-01-15,East ,widget a,David,373.0,19.99,  check back
+March 10 2024,South,GADGET X,Carol,83.0,19.99,  check back
+10/03/2024,North,widget b,Carol,,49.99,
+15/01/2024,North,widget a,Eve,253.0,19.99,
+20/02/2024, west,widget b,Bob,315.0,19.99,  check back
+2024-03-10,West,Gadget X,Carol,337.0,99.99,  great quarter  
+Feb 20 2024,West,widget a,Alice,,19.99,  great quarter  
+2024-02-20,South,Gadget X,Alice,,,follow up  
+20/02/2024,South,widget b,Bob,114.0,99.99,
+2024-02-20, west,GADGET X,David,342.0,99.99,
+15/01/2024, west,GADGET X,Alice,,9.99,
+10/03/2024,West,widget a,Eve,98.0,19.99,closed
+15/01/2024,South,Widget B,Eve,,9.99,  great quarter  
+10/03/2024,West,widget a,David,210.0,19.99,
+10/03/2024,North,Widget B,Carol,361.0,99.99,
+2024-01-15,West,WIDGET A,Bob,282.0,,follow up  
+10/03/2024,North,Widget A,Eve,276.0,9.99,closed
+15/01/2024,East,Widget A,Eve,125.0,19.99,  check back
+2024-03-10,North,widget b,Alice,294.0,49.99,
+2024-03-10,south,widget a,Carol,335.0,49.99,closed
+15/01/2024,South,Widget A,David,114.0,19.99,follow up  
+20/02/2024,South,widget a,Carol,283.0,9.99,
+Jan 15 2024,NORTH,Gadget X,Alice,59.0,19.99,follow up  
+Feb 20 2024,NORTH,widget b,Bob,329.0,99.99,follow up  
+20/02/2024,North,Widget A,David,,19.99,
+March 10 2024,NORTH,widget a,David,292.0,,  great quarter  
+Feb 20 2024,East,widget b,Alice,80.0,9.99,follow up  
+Feb 20 2024,south,GADGET X,Alice,132.0,49.99,closed
+2024-02-20,East ,widget b,Bob,95.0,9.99,
+2024-02-20,south,GADGET X,David,364.0,9.99,closed
+10/03/2024, west,widget a,Bob,121.0,19.99,
+20/02/2024,south,WIDGET A,Alice,265.0,49.99,  great quarter  
+20/02/2024,South,WIDGET A,Bob,,49.99,
+March 10 2024,south,Widget B,Eve,300.0,9.99,
+March 10 2024,East ,Widget A,Eve,384.0,19.99,follow up  
+Feb 20 2024,East ,Widget A,Carol,68.0,49.99,  check back
+Feb 20 2024,NORTH,Gadget X,David,156.0,19.99,
+20/02/2024,East ,Gadget X,Bob,5.0,19.99,
+10/03/2024,south,Widget B,David,266.0,19.99,
+Feb 20 2024,South,WIDGET A,Eve,389.0,49.99,
+2024-01-15,West,widget a,Alice,248.0,9.99,
+2024-02-20,East ,Gadget X,Eve,201.0,19.99,
+2024-03-10,North,GADGET X,Alice,361.0,9.99,  check back
+10/03/2024,West,GADGET X,Alice,242.0,49.99,closed
+2024-03-10, west,widget b,Eve,285.0,19.99,
+2024-02-20, west,Widget B,Carol,146.0,99.99,
+15/01/2024,West,WIDGET A,David,125.0,49.99,  check back
+2024-02-20,South,widget a,Bob,83.0,9.99,
+10/03/2024,East ,WIDGET A,Eve,110.0,99.99,closed
+2024-03-10,North,GADGET X,Eve,185.0,99.99,closed
+2024-02-20,East ,widget b,Eve,144.0,9.99,
+Jan 15 2024,south,Gadget X,David,70.0,9.99,
+Jan 15 2024,North,Widget A,David,98.0,,
+Feb 20 2024,south,widget a,David,199.0,99.99,follow up  
+March 10 2024,South,Widget B,Alice,,19.99,
+2024-01-15,South,GADGET X,Alice,107.0,19.99,
+2024-02-20,East,Widget B,Alice,136.0,19.99,  check back
+20/02/2024,South,GADGET X,Bob,18.0,99.99,
+2024-02-20,West,Widget A,Eve,400.0,9.99,closed
+2024-03-10,North,WIDGET A,Eve,40.0,49.99,  great quarter  
+15/01/2024,East ,GADGET X,David,190.0,99.99,
+March 10 2024,East,Widget B,Bob,143.0,99.99,
+20/02/2024,East ,GADGET X,Eve,130.0,9.99,follow up  
+2024-03-10, west,widget a,David,258.0,19.99,
+Feb 20 2024,West,WIDGET A,Carol,310.0,49.99,  check back
+15/01/2024,North,widget b,Bob,213.0,19.99,
+10/03/2024, west,Gadget X,David,52.0,99.99,
+Feb 20 2024,West,WIDGET A,Eve,276.0,49.99,follow up  
+20/02/2024, west,WIDGET A,Carol,374.0,9.99,
+10/03/2024,East,widget a,Bob,306.0,49.99,  great quarter  
+Feb 20 2024,West,WIDGET A,Bob,12.0,19.99,follow up  
+20/02/2024,North,Widget A,Eve,69.0,99.99,  great quarter  
+10/03/2024,North,widget b,Carol,179.0,9.99,follow up  
+2024-03-10, west,Widget A,Alice,300.0,9.99,
+20/02/2024,East,GADGET X,Eve,132.0,99.99,  check back
+20/02/2024,East ,widget a,David,8.0,19.99,
+Feb 20 2024,south,widget a,Carol,141.0,9.99,  check back
+2024-01-15,East ,widget a,David,373.0,19.99,  check back
+10/03/2024,North,Widget A,Eve,276.0,9.99,closed
