@@ -5,9 +5,9 @@ Resources for the **Automate Your Boring Stuff: Python for Beginners** workshop 
 Files
 -----
  
-- ``index.html`` — step-by-step workshop guide
-- ``notebook.html`` — colab notebook used in the workshop
-- ``handout.html`` — quick reference cheat sheet for Python
+- ``index.html`` — workshop home
+- ``python_kickstart.ipynb`` — colab notebook used in the workshop
+- ``handout.md`` — quick reference cheat sheet for Python
  
  
 License
