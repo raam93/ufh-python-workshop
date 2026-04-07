@@ -1,4 +1,4 @@
-Building a Simple Professional Portfolio on GitHub 
+Automate Your Boring Stuff: Python for Beginners
 ===================================================
 Resources for the **Automate Your Boring Stuff: Python for Beginners** workshop at University Family Housing, University of Toronto.
  
