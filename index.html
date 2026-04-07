@@ -1,688 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Automate Your Boring Stuff — Python Workshop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:          #0f0f0f;
+      --ink2:         #3a3a3a;
+      --muted:        #6b6b6b;
+      --rule:         #e0ddd8;
+      --bg:           #f9f7f4;
+      --card:         #ffffff;
+      --accent:       #1a4fff;
+      --accent-light: #eef2ff;
+      --amber:        #b45309;
+      --amber-light:  #fef3c7;
+      --green:        #0d7a4e;
+      --green-light:  #e6f5ee;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --mono:  'DM Mono', 'Courier New', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: Georgia, serif;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
       font-size: 16px;
       line-height: 1.7;
-      color: #222;
-      background: #fff;
     }
 
-    a { color: #2563eb; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a { color: var(--accent); }
 
-    /* ── Layout ── */
-    .wrapper {
-      display: flex;
-      min-height: 100vh;
-      max-width: 960px;
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1px solid var(--rule);
+      padding: 56px 0 48px;
+      background: var(--card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: #eef2ff;
+      z-index: 0;
+    }
+
+    .inner {
+      max-width: 760px;
       margin: 0 auto;
-    }
-
-    .sidebar {
-      width: 240px;
-      flex-shrink: 0;
-      padding: 48px 28px 48px 32px;
-      border-right: 1px solid #e5e5e5;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-    }
-
-    .sidebar-meta {
-      font-size: 0.76rem;
-      color: #aaa;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-family: Arial, sans-serif;
-      margin-bottom: 8px;
-    }
-
-    .sidebar h1 {
-      font-size: 1.05rem;
-      font-weight: bold;
-      line-height: 1.4;
-      margin-bottom: 6px;
-    }
-
-    .sidebar .session-info {
-      font-size: 0.82rem;
-      color: #666;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .sidebar-nav {
-      list-style: none;
-      border-top: 1px solid #e5e5e5;
-      padding-top: 16px;
-    }
-
-    .sidebar-nav li { margin-bottom: 2px; }
-
-    .sidebar-nav a {
-      display: block;
-      padding: 3px 0;
-      font-size: 0.84rem;
-      color: #555;
-    }
-
-    .sidebar-nav a:hover { color: #2563eb; text-decoration: none; }
-    .sidebar-nav a.active { color: #2563eb; font-weight: bold; }
-
-    .nav-label {
-      display: block;
-      font-size: 0.71rem;
-      color: #bbb;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      font-family: Arial, sans-serif;
-      margin-top: 16px;
-      margin-bottom: 4px;
-    }
-
-    .sidebar-actions {
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid #e5e5e5;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .btn {
-      display: block;
-      text-align: center;
-      padding: 9px 14px;
-      border-radius: 6px;
-      font-family: Arial, sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: #fff !important;
-    }
-
-    .btn-primary:hover { background: #1d4ed8; text-decoration: none; }
-
-    .btn-ghost {
-      border: 1px solid #d1d5db;
-      color: #444 !important;
-    }
-
-    .btn-ghost:hover { border-color: #2563eb; color: #2563eb !important; text-decoration: none; }
-
-    /* ── Main ── */
-    .main {
-      flex: 1;
-      padding: 0 44px 80px;
-      min-width: 0;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      padding: 48px 0 36px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.77rem;
-      font-family: Arial, sans-serif;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 10px;
-    }
-
-    .hero h2 {
-      font-size: 2rem;
-      font-weight: bold;
-      line-height: 1.2;
-      margin-bottom: 14px;
-      color: #111;
-    }
-
-    .hero h2 em { font-style: italic; }
-
-    .hero-desc {
-      font-size: 1rem;
-      color: #444;
-      max-width: 540px;
-      margin-bottom: 20px;
-    }
-
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+      padding: 0 28px;
+      position: relative;
+      z-index: 1;
     }
 
     .pill {
-      font-size: 0.82rem;
-      font-family: Arial, sans-serif;
-      color: #555;
-    }
-
-    /* ── Sections ── */
-    .section {
-      padding-top: 48px;
-      scroll-margin-top: 24px;
-    }
-
-    h2.sh {
-      font-size: 0.84rem;
-      font-weight: bold;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-      color: #555;
-      margin-bottom: 18px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    /* ── Callout ── */
-    .callout {
-      background: #eff6ff;
-      border-left: 3px solid #2563eb;
-      border-radius: 0 6px 6px 0;
-      padding: 13px 18px;
-      margin: 16px 0;
-      font-size: 0.92rem;
-    }
-
-    /* ── Outcome list ── */
-    .outcome-list {
-      list-style: none;
-      margin: 0;
-    }
-
-    .outcome-list li {
-      display: flex;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f5f5f5;
-      font-size: 0.93rem;
-      align-items: flex-start;
-    }
-
-    .outcome-list li:last-child { border-bottom: none; }
-
-    .outcome-list .tag {
-      flex-shrink: 0;
-      font-size: 0.72rem;
-      font-family: Arial, sans-serif;
-      font-weight: bold;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: #2563eb;
-      background: #eff6ff;
-      border-radius: 4px;
-      padding: 2px 7px;
-      margin-top: 3px;
-      white-space: nowrap;
-    }
-
-    /* ── Building blocks table ── */
-    .blocks-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 4px;
-    }
-
-    .block-card {
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      padding: 14px 16px;
-    }
-
-    .block-card .num {
-      font-size: 0.72rem;
-      font-family: Arial, sans-serif;
-      color: #aaa;
-      text-transform: uppercase;
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
       letter-spacing: .06em;
-      margin-bottom: 4px;
+      color: var(--accent);
+      background: var(--accent-light);
+      border-radius: 99px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
 
-    .block-card strong {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 4px;
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      font-weight: 400;
     }
 
-    .block-card p {
-      font-size: 0.83rem;
-      color: #666;
-      line-height: 1.5;
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .tagline {
+      font-size: 1.05rem;
+      color: var(--ink2);
+      max-width: 540px;
+      line-height: 1.65;
+      margin-bottom: 28px;
     }
 
-    /* ── QR section ── */
-    .qr-area {
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 0; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ink);
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-decoration: none;
+      font-size: 14px;
+      font-family: var(--sans);
+      font-weight: 500;
+      transition: background .15s;
+    }
+    .btn-primary:hover { background: #1e293b; }
+    .btn-primary strong { color: #fff; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--ink2);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-decoration: none;
+      font-size: 14px;
+      font-family: var(--sans);
+      font-weight: 500;
+      transition: border-color .15s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .meta {
       display: flex;
-      align-items: flex-start;
-      gap: 28px;
-      margin-top: 8px;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 24px;
     }
 
-    .qr-box {
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--rule);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+
+    nav a {
+      display: inline-block;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+    /* ── MAIN ── */
+    main { max-width: 760px; margin: 0 auto; padding: 0 28px 80px; }
+
+    section { padding-top: 56px; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    p { color: var(--ink2); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── STEPS ── */
+    .step {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 0 16px;
+      margin-bottom: 20px;
+      align-items: start;
+    }
+
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-      width: 140px;
-      height: 140px;
-      border: 2px dashed #d1d5db;
+      margin-top: 2px;
+    }
+
+    .step-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .step-body p  { font-size: 14px; margin-bottom: 8px; }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout.tip  { background: var(--accent-light); border-left: 3px solid var(--accent); }
+    .callout.warn { background: var(--amber-light);  border-left: 3px solid var(--amber); }
+    .callout.go   { background: var(--green-light);  border-left: 3px solid var(--green); }
+    .callout-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+    .callout p    { font-size: 14px; margin: 0; }
+    .callout strong { color: var(--ink); }
+
+    /* ── ITEM LIST ── */
+    .item-list { list-style: none; margin-top: 4px; }
+    .item-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.93rem;
+      color: var(--ink2);
+    }
+    .item-list li:last-child { border-bottom: none; }
+    .item-list li strong { display: block; margin-bottom: 2px; color: var(--ink); }
+
+    /* ── RESOURCE LINKS ── */
+    .resource-grid { display: grid; gap: 10px; margin-top: 12px; }
+
+    .resource-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--rule);
       border-radius: 8px;
+      padding: 12px 16px;
+      text-decoration: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .resource-row:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+    .resource-row h4 { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .resource-row p  { font-size: 12.5px; color: var(--muted); margin: 0; font-family: var(--mono); }
+    .resource-arrow  { font-size: 18px; color: var(--accent); flex-shrink: 0; }
+
+    /* ── QR ── */
+    .qr-row { display: flex; align-items: flex-start; gap: 24px; margin-top: 12px; }
+    .qr-placeholder {
+      width: 130px; height: 130px;
+      border: 2px dashed var(--rule);
+      border-radius: 8px;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #aaa;
-      font-family: Arial, sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.73rem;
+      font-family: var(--mono);
+      color: var(--muted);
       line-height: 1.5;
-      padding: 12px;
+      padding: 10px;
     }
 
-    /* ── Resources ── */
-    .resource-list {
-      list-style: none;
-    }
+    hr.divider { border: none; border-top: 1px solid var(--rule); margin: 40px 0 0; }
 
-    .resource-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 0.92rem;
-    }
-
-    .resource-list li:last-child { border-bottom: none; }
-
-    .resource-list .res-arrow {
-      font-size: 0.8rem;
-      color: #aaa;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .resource-list small {
-      display: block;
-      color: #888;
-      font-size: 0.8rem;
-      margin-top: 1px;
-    }
-
-    /* ── Footer ── */
+    /* ── FOOTER ── */
     footer {
-      font-size: 0.77rem;
-      color: #bbb;
-      font-family: Arial, sans-serif;
-      padding: 40px 0 20px;
-      border-top: 1px solid #f0f0f0;
-      margin-top: 16px;
+      border-top: 1px solid var(--rule);
+      padding: 36px 28px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 auto;
     }
+    footer a { color: var(--accent); text-decoration: none; }
 
-    @media (max-width: 640px) {
-      .wrapper { flex-direction: column; }
-      .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e5e5e5;
-        padding: 28px 24px;
-        height: auto;
-        position: static;
-      }
-      .main { padding: 0 24px 60px; }
-      .hero h2 { font-size: 1.5rem; }
-      .blocks-grid { grid-template-columns: 1fr; }
+    @media (max-width: 540px) {
+      h1 { font-size: 1.75rem; }
+      .qr-row { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<div class="wrapper">
-
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <p class="sidebar-meta">UFH Workshop</p>
-    <h1>Automate Your Boring Stuff</h1>
-    <p class="session-info">
-      Tuesday, April 7<br>
-      5:30 – 7:00 pm<br>
-      90 minutes
+<!-- ── HEADER ── -->
+<header>
+  <div class="inner">
+    <div class="pill">UFH Workshop · April 7 · 5:30 – 7:00 pm</div>
+    <h1> <em>Automate</em> Your Boring Stuff: Python for Beginners</h1>
+    <p class="tagline">
+      Learn the core building blocks of Python by automating tasks that are genuinely
+      tedious to do by hand — sorting files, handling PDFs, cleaning spreadsheets,
+      and tracking data changes. Everything runs in your browser. No installation required.
     </p>
+    <div class="cta-row">
+      <a class="btn-primary"
+         href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/python_kickstart.ipynb"
+         target="_blank">
+        <strong>▶ Open Notebook</strong>
+      </a>
+      <a class="btn-ghost"
+         href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
+         target="_blank">
+        📄 Handout
+      </a>
+    </div>
+    <div class="meta">
+      <span class="meta-item">⏱ 90 minutes</span>
+      <span class="meta-item">💻 No installation needed</span>
+      <span class="meta-item">🐍 No coding experience needed</span>
+    </div>
+  </div>
+</header>
 
-    <ul class="sidebar-nav">
-      <span class="nav-label">Overview</span>
-      <li><a href="#about">About</a></li>
-      <li><a href="#outcomes">What you'll learn</a></li>
-      <li><a href="#tasks">Tasks</a></li>
-      <li><a href="#building-blocks">Building blocks</a></li>
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#about">About</a>
+    <a href="#learn">What you'll learn</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#notebook">Notebook</a>
+    <a href="#handout">Handout</a>
+    <a href="#resources">Resources</a>
+  </div>
+</nav>
 
-      <span class="nav-label">Session</span>
-      <li><a href="#notebook">Notebook</a></li>
-      <li><a href="#handout">Handout</a></li>
-      <li><a href="#resources">Resources</a></li>
+<!-- ── MAIN ── -->
+<main>
+
+  <section id="about">
+    <div class="section-label">Background</div>
+    <h2>What is this session about?</h2>
+    <p>
+      Python is a way to give your computer a precise list of instructions. The computer follows those instructions fast, accurately, and without complaints — for 10,000 files or 1,000 spreadsheet rows just as easily as for 1.
+    </p>
+    <p>
+      This session teaches the core building blocks of Python through four tasks that are genuinely boring and slow to do by hand. Each task is chosen because it is time-consuming, error-prone, and something almost everyone runs into — but also something a chatbot cannot easily help with, since your files and spreadsheets stay on your own computer.
+    </p>
+    <div class="callout warn">
+      <span class="callout-icon">💡</span>
+      <p><strong>Why not just ask ChatGPT or Claude?</strong> You could — for some of these. But your files are on your computer. Uploading sensitive spreadsheets or contracts to an AI raises real privacy concerns. Running Python locally means your data never leaves your machine.</p>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <section id="learn">
+    <div class="section-label">Outcomes</div>
+    <h2>What you'll learn</h2>
+    <p>Python concepts are introduced in layers — each task adds one more. By the end you'll have working code <em>and</em> the vocabulary to keep going on your own.</p>
+    <ul class="item-list">
+      <li>
+        <strong>Variables, constants, keywords &amp; operators</strong>
+        The smallest units of Python — how to store values, do arithmetic, compare things, and work with text.
+      </li>
+      <li>
+        <strong>Data structures</strong>
+        How Python organises collections of data: lists, tuples, dictionaries, and sets — and when to use each one.
+      </li>
+      <li>
+        <strong>Logic &amp; control flow</strong>
+        How to make decisions with <code>if/else</code>, repeat actions with <code>for</code> and <code>while</code> loops, and handle errors with <code>try/except</code>.
+      </li>
+      <li>
+        <strong>Functions</strong>
+        How to write reusable, named blocks of code with parameters and return values — so you write logic once and call it anywhere.
+      </li>
+      <li>
+        <strong>Classes</strong>
+        How to group related data and operations under one roof, and chain methods together into a readable pipeline.
+      </li>
     </ul>
+  </section>
 
-    <div class="sidebar-actions">
-      <a class="btn btn-primary"
-         href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/session_notebook.ipynb"
-         target="_blank">▶ Open Notebook</a>
-      <a class="btn btn-ghost"
-         href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
-         target="_blank">📄 Handout</a>
-    </div>
-  </aside>
+  <hr class="divider"/>
 
-  <!-- ── Main ── -->
-  <main class="main">
+  <section id="tasks">
+    <div class="section-label">Session</div>
+    <h2>The four tasks</h2>
+    <p>Every task is boring, slow, and error-prone when done by hand. That's exactly why Python helps — and why these make good teaching material.</p>
 
-    <!-- Hero -->
-    <div class="hero" id="about">
-      <p class="hero-eyebrow">Python for Complete Beginners · No installation needed</p>
-      <h2>Automate Your <em>Boring</em> Stuff</h2>
-      <p class="hero-desc">
-        Skip the repetitive clicking. In 90 minutes you'll learn the core building blocks
-        of Python by solving four tasks that are genuinely tedious to do by hand —
-        sorting files, handling PDFs, cleaning spreadsheets, and tracking changes.
-        All in your browser, no coding experience required.
-      </p>
-      <div class="pills">
-        <span class="pill">⏱ 90 minutes</span>
-        <span class="pill">💻 Runs in browser — no installs</span>
-        <span class="pill">🔒 Your files stay on your computer</span>
-        <span class="pill">🐍 No prior coding needed</span>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Smart File Organizer</h4>
+        <p>Filter files by prefix, suffix, or pattern — then sort them into folders automatically. Change one constant and the rule applies to all 500 files instantly.</p>
       </div>
     </div>
-
-    <!-- Outcomes -->
-    <div class="section" id="outcomes">
-      <h2 class="sh">What you'll learn</h2>
-      <p style="margin-bottom:16px; font-size:0.93rem; color:#444;">
-        Each task is a vehicle for teaching a concept.
-        By the end you'll have working code <em>and</em> the vocabulary
-        to keep learning on your own.
-      </p>
-      <ul class="outcome-list">
-        <li>
-          <span class="tag">Concept</span>
-          <div>Understand the smallest units of Python — variables, constants, keywords, and operators — and how to combine them to express logic</div>
-        </li>
-        <li>
-          <span class="tag">Concept</span>
-          <div>Work with Python's core data structures: integers, floats, strings, lists, tuples, dictionaries, and sets</div>
-        </li>
-        <li>
-          <span class="tag">Concept</span>
-          <div>Write logic and control flow using <code>if/else</code>, <code>for</code> loops, <code>while</code> loops, and <code>try/except</code> for error handling</div>
-        </li>
-        <li>
-          <span class="tag">Concept</span>
-          <div>Define reusable <strong>functions</strong> with parameters and return values — and understand when and why to use them</div>
-        </li>
-        <li>
-          <span class="tag">Concept</span>
-          <div>Build <strong>classes</strong> that group related data and operations together, and chain methods to create a readable pipeline</div>
-        </li>
-        <li>
-          <span class="tag">Practical</span>
-          <div>Sort, filter, and rename hundreds of files automatically based on rules you define</div>
-        </li>
-        <li>
-          <span class="tag">Practical</span>
-          <div>Merge, split, and extract pages from PDFs — free, locally, without uploading anything</div>
-        </li>
-        <li>
-          <span class="tag">Practical</span>
-          <div>Clean messy spreadsheets, combine multiple Excel files, generate summary reports, and produce charts — all in a few lines</div>
-        </li>
-        <li>
-          <span class="tag">Practical</span>
-          <div>Compare two versions of a dataset and automatically surface what rows were added, removed, or changed</div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Tasks -->
-    <div class="section" id="tasks">
-      <h2 class="sh">The four tasks</h2>
-      <p style="margin-bottom:16px; font-size:0.93rem; color:#444;">
-        Every task is boring, slow, and error-prone when done by hand.
-        That's exactly why Python helps.
-      </p>
-      <ul class="outcome-list">
-        <li>
-          <span class="tag">Task 1</span>
-          <div>
-            <strong>Smart File Organizer</strong>
-            Filter files by prefix, suffix, or pattern — then sort them into folders automatically.
-            Change one constant and the rule changes for all 500 files at once.
-          </div>
-        </li>
-        <li>
-          <span class="tag">Task 2</span>
-          <div>
-            <strong>PDF Toolkit</strong>
-            Merge a folder of PDFs, extract a page range, or split a document into individual pages.
-            No uploads, no subscriptions — your documents stay private.
-          </div>
-        </li>
-        <li>
-          <span class="tag">Task 3</span>
-          <div>
-            <strong>Data Cleaning & Analysis</strong>
-            Fix every common spreadsheet mess automatically: inconsistent capitalisation,
-            trailing spaces, mixed date formats, missing values, duplicates.
-            Then combine dozens of files, summarise by group, and generate charts.
-          </div>
-        </li>
-        <li>
-          <span class="tag">Task 4</span>
-          <div>
-            <strong>Change Tracker</strong>
-            Compare last week's dataset with this week's.
-            Instantly see which rows were added, which were removed, and which values changed.
-          </div>
-        </li>
-      </ul>
-
-      <div class="callout" style="margin-top:20px;">
-        <strong>Why not just ask ChatGPT or Claude?</strong>
-        You could — for some of these. But your files are on your computer.
-        Uploading sensitive spreadsheets or contracts to an AI or online tool raises real
-        privacy concerns. Running Python locally means your data never leaves your machine.
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>PDF Toolkit</h4>
+        <p>Merge a folder of PDFs, extract a page range, or split a document into individual pages. No uploads, no subscriptions — your documents stay private.</p>
       </div>
     </div>
-
-    <!-- Building blocks -->
-    <div class="section" id="building-blocks">
-      <h2 class="sh">Python building blocks</h2>
-      <p style="margin-bottom:16px; font-size:0.93rem; color:#444;">
-        These are introduced in order — each task adds a new layer.
-      </p>
-      <div class="blocks-grid">
-        <div class="block-card">
-          <div class="num">Layer 1</div>
-          <strong>Smallest units</strong>
-          <p>Variables, constants, keywords, operators, string methods</p>
-        </div>
-        <div class="block-card">
-          <div class="num">Layer 2</div>
-          <strong>Data structures</strong>
-          <p>int, float, string, list, tuple, dict, set</p>
-        </div>
-        <div class="block-card">
-          <div class="num">Layer 3</div>
-          <strong>Logic & control flow</strong>
-          <p>if/else, for, while, try/except</p>
-        </div>
-        <div class="block-card">
-          <div class="num">Layer 4</div>
-          <strong>Advanced structures</strong>
-          <p>Functions with parameters and defaults · Classes with method chaining</p>
-        </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Data Cleaning &amp; Analysis</h4>
+        <p>Fix every common spreadsheet mess automatically: inconsistent capitalisation, trailing spaces, mixed date formats, missing values, duplicates. Then combine dozens of files, summarise by group, and generate charts.</p>
       </div>
     </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Change Tracker</h4>
+        <p>Compare last week's dataset with this week's. Instantly see which rows were added, which were removed, and which values changed.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Notebook -->
-    <div class="section" id="notebook">
-      <h2 class="sh">Session notebook</h2>
-      <p style="margin-bottom:14px; font-size:0.93rem; color:#444;">
-        Everything runs in <strong>Google Colab</strong> — a free Python environment
-        in your browser. No installation required, just a Google account.
-        The notebook contains all code, explanations, and exercises for the session.
-        A setup cell at the top automatically downloads all sample data files.
-      </p>
-      <a class="btn btn-primary"
-         style="display:inline-block; width:auto; padding:10px 20px;"
-         href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/session_notebook.ipynb"
-         target="_blank">▶ Open in Google Colab</a>
-      <p style="margin-top:12px; font-size:0.82rem; color:#888;">
-        Or view the raw file on
-        <a href="https://github.com/raam93/ufh-python-workshop/blob/main/session_notebook.ipynb"
-           target="_blank">GitHub →</a>
-      </p>
+  <hr class="divider"/>
+
+  <section id="notebook">
+    <div class="section-label">Open in Colab</div>
+    <h2>Session notebook</h2>
+    <p>
+      Everything runs in <strong>Google Colab</strong> — a free Python environment in your browser. All you need is a Google account. The notebook contains all the code, explanations, and exercises for the session. A setup cell at the top automatically downloads all sample data files — no manual uploading needed.
+    </p>
+    <p>
+      <a href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/python_kickstart.ipynb"
+         target="_blank"><strong>Open notebook in Google Colab →</strong></a>
+    </p>
+    <p style="font-size:0.85rem; color: var(--muted);">
+      Or view the source on <a href="https://github.com/raam93/ufh-python-workshop/blob/main/python_kickstart.ipynb" target="_blank">GitHub →</a>
+    </p>
+    <div class="callout tip" style="margin-top:16px;">
+      <span class="callout-icon">💡</span>
+      <p><strong>How to run a cell:</strong> click it, then press <strong>Shift + Enter</strong>. You don't need to type anything from scratch — read, run, and tweak.</p>
     </div>
 
-    <!-- Handout -->
-    <div class="section" id="handout">
-      <h2 class="sh">Quick reference handout</h2>
-      <p style="margin-bottom:14px; font-size:0.93rem; color:#444;">
-        A one-page cheat sheet covering all key functions from today —
-        file operations, PDF commands, pandas patterns, common errors, and next steps.
-        Keep it open during the session or save it for later.
-      </p>
-      <a class="btn btn-ghost"
-         style="display:inline-block; width:auto; padding:10px 20px;"
-         href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
-         target="_blank">📄 View Handout</a>
-    </div>
-
-    <!-- QR -->
-    <div class="section" id="qr">
-      <h2 class="sh">This page</h2>
-      <div class="qr-area">
-        <div class="qr-box">
-          <!-- Replace this div with: <img src="qr.png" width="140" height="140" alt="QR code"> -->
-          QR code<br>coming soon<br><br>
-          <span style="font-size:0.68rem;">replace with<br>qr.png</span>
+    <div style="margin-top:40px;">
+      <div class="section-label">This page</div>
+      <h2>Scan to open on your phone</h2>
+      <div class="qr-row">
+        <div class="qr-placeholder">
+          <!-- Replace with: <img src="qr.png" width="130" height="130" alt="QR code"> -->
+          QR code<br>coming soon
         </div>
         <div>
-          <p style="font-size:0.93rem; color:#444; margin-bottom:8px;">
-            Scan to open this workshop page on your phone.
+          <p>Scan to open this workshop page on your device — notebook link, handout, and resources all in one place.</p>
+          <p style="font-size:0.84rem; color: var(--muted); margin-top:6px;">
+            <a href="https://raam93.github.io/ufh-python-workshop/">raam93.github.io/ufh-python-workshop</a>
           </p>
-          <p style="font-size:0.82rem; color:#888;">
-            <!-- Update this URL once GitHub Pages is live -->
-            <a href="https://raam93.github.io/ufh-python-workshop/">
-              raam93.github.io/ufh-python-workshop
-            </a>
-          </p>
-          <p style="margin-top:12px; font-size:0.82rem; color:#aaa;">
-            To add the QR code: upload <code>qr.png</code> to the repo root,
-            then replace the placeholder div with<br>
-            <code>&lt;img src="qr.png" width="140" height="140" alt="QR code"&gt;</code>
+          <p style="font-size:0.8rem; color: var(--muted); margin-top:10px; font-family: var(--mono);">
+            To add: upload qr.png to the repo root and replace the placeholder div with<br>
+            &lt;img src="qr.png" width="130" height="130" alt="QR code"&gt;
           </p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Resources -->
-    <div class="section" id="resources">
-      <h2 class="sh">Resources to keep</h2>
-      <ul class="resource-list">
-        <li>
-          <div>
-            <a href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/session_notebook.ipynb"
-               target="_blank">Session Notebook</a>
-            <small>All the code from today — open in Colab, keep it, modify it</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
-               target="_blank">Quick Reference Handout</a>
-            <small>Key functions, patterns, and error messages — one page</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://automatetheboringstuff.com" target="_blank">Automate the Boring Stuff with Python</a>
-            <small>Free online book — the gold standard for practical beginner Python</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://realpython.com/installing-python/" target="_blank">Installing Python locally</a>
-            <small>Step-by-step guide for Windows, Mac, and Linux — realpython.com</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://www.coursera.org/learn/python" target="_blank">Python for Everybody — Coursera</a>
-            <small>Free to audit — good structured follow-up after today</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://reddit.com/r/learnpython" target="_blank">r/learnpython</a>
-            <small>Friendly community — paste your error, get a human answer</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-        <li>
-          <div>
-            <a href="https://pandas.pydata.org/docs/" target="_blank">pandas documentation</a>
-            <small>Reference for everything covered in Part 3</small>
-          </div>
-          <span class="res-arrow">→</span>
-        </li>
-      </ul>
+  <hr class="divider"/>
+
+  <section id="handout">
+    <div class="section-label">Quick reference</div>
+    <h2>Handout</h2>
+    <p>A one-page cheat sheet with all the key functions, patterns, and error messages from today. Keep it open during the session or save it for later.</p>
+    <p>
+      <a href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
+         target="_blank"><strong>View handout →</strong></a>
+    </p>
+  </section>
+
+  <hr class="divider"/>
+
+  <section id="resources">
+    <div class="section-label">Links</div>
+    <h2>Resources to keep</h2>
+    <div class="resource-grid">
+      <a class="resource-row"
+         href="https://colab.research.google.com/github/raam93/ufh-python-workshop/blob/main/python_kickstart.ipynb"
+         target="_blank">
+        <div><h4>Session Notebook</h4><p>All the code from today — open in Colab, keep it, modify it</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row"
+         href="https://github.com/raam93/ufh-python-workshop/blob/main/handout.md"
+         target="_blank">
+        <div><h4>Quick Reference Handout</h4><p>Key functions, patterns, and error messages — one page</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row" href="https://realpython.com/installing-python/" target="_blank">
+        <div><h4>Installing Python locally</h4><p>Step-by-step guide for Windows, Mac, and Linux — realpython.com</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row" href="https://pandas.pydata.org/docs/" target="_blank">
+        <div><h4>pandas documentation</h4><p>Reference for everything in the data analysis section</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row" href="https://www.coursera.org/learn/python" target="_blank">
+        <div><h4>Python for Everybody — Coursera</h4><p>Free to audit — good structured follow-up after today</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row" href="https://automatetheboringstuff.com" target="_blank">
+        <div><h4>Stanford's CodeInPlace Initiative</h4><p>Learn coding with a group and a mentor</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
+      <a class="resource-row" href="https://reddit.com/r/learnpython" target="_blank">
+        <div><h4>r/learnpython</h4><p>Friendly community — paste your error, get a human answer</p></div>
+        <span class="resource-arrow">→</span>
+      </a>
     </div>
+  </section>
 
-    <footer>
-      Workshop guide · UFH · April 7, 2025 ·
-      <a href="https://github.com/raam93/ufh-python-workshop" target="_blank">View on GitHub</a>
-    </footer>
+</main>
 
-  </main>
-</div>
+<footer>
+  <p>Workshop guide · UFH · April 7, 2025 · <a href="https://github.com/raam93/ufh-python-workshop">View on GitHub →</a></p>
+</footer>
 
 <script>
-  // Highlight active nav link as user scrolls
-  const sections = document.querySelectorAll(".section, .hero");
-  const links    = document.querySelectorAll(".sidebar-nav a");
+  const navLinks = document.querySelectorAll('nav a');
+  const sections = document.querySelectorAll('section');
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        links.forEach(a => {
-          const active = a.getAttribute("href") === "#" + id;
-          a.classList.toggle("active", active);
-        });
-      }
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
     });
-  }, { rootMargin: "0px 0px -70% 0px" });
-
-  sections.forEach(s => observer.observe(s));
+    navLinks.forEach(a => {
+      const active = a.getAttribute('href') === '#' + current;
+      a.style.color       = active ? 'var(--ink)'    : '';
+      a.style.borderColor = active ? 'var(--accent)' : 'transparent';
+    });
+  });
 </script>
 
 </body>
